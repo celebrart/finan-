@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>FinLife - Saúde Financeira</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Fonte e ícones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">₣</span>
+        <span class="logo-text">FinLife</span>
+      </div>
+      <nav class="nav">
+        <button class="nav-item active" data-section="dashboard">
+          <i class="bx bx-pie-chart-alt"></i>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-section="renda">
+          <i class="bx bx-coin-stack"></i>
+          <span>Renda</span>
+        </button>
+        <button class="nav-item" data-section="dividas">
+          <i class="bx bx-receipt"></i>
+          <span>Dívidas & Gastos</span>
+        </button>
+        <button class="nav-item" data-section="metas">
+          <i class="bx bx-target-lock"></i>
+          <span>Metas</span>
+        </button>
+        <button class="nav-item" data-section="lembretes">
+          <i class="bx bx-bell"></i>
+          <span>Lembretes</span>
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <button id="btnToggleTheme" class="ghost-btn">
+          <i class="bx bx-moon"></i>
+          <span>Tema</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1>Saúde financeira</h1>
+          <p>Controle sua renda, dívidas e metas em um só lugar.</p>
+        </div>
+        <div class="topbar-right">
+          <div class="user-chip">
+            <div class="avatar">U</div>
+            <div>
+              <p class="user-name">Usuário</p>
+              <p class="user-sub">Perfil local</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section class="section active" id="section-dashboard">
+        <div class="cards-grid">
+          <div class="card card-kpi">
+            <div class="card-header">
+              <span>Renda mensal</span>
+              <i class="bx bx-coin-stack"></i>
+            </div>
+            <div class="card-body">
+              <p class="kpi-value" id="kpi-renda">R$ 0,00</p>
+              <p class="kpi-sub">Soma das rendas cadastradas no mês.</p>
+            </div>
+          </div>
+
+          <div class="card card-kpi">
+            <div class="card-header">
+              <span>Gastos & dívidas</span>
+              <i class="bx bx-credit-card"></i>
+            </div>
+            <div class="card-body">
+              <p class="kpi-value" id="kpi-dividas">R$ 0,00</p>
+              <p class="kpi-sub">Comprometido neste mês.</p>
+            </div>
+          </div>
+
+          <div class="card card-kpi">
+            <div class="card-header">
+              <span>Sobra do mês</span>
+              <i class="bx bx-wallet"></i>
+            </div>
+            <div class="card-body">
+              <p class="kpi-value" id="kpi-sobra">R$ 0,00</p>
+              <p class="kpi-sub" id="kpi-sobra-label">Você está no zero a zero.</p>
+            </div>
+          </div>
+
+          <div class="card card-health">
+            <div class="card-header">
+              <span>Índice de saúde financeira</span>
+              <i class="bx bx-heart-circle"></i>
+            </div>
+            <div class="card-body">
+              <div class="health-score-wrapper">
+                <div class="health-score-ring">
+                  <div class="health-score-inner">
+                    <span id="health-score-value">0</span>
+                    <small>/100</small>
+                  </div>
+                  <svg viewBox="0 0 120 120">
+                    <circle class="bg" cx="60" cy="60" r="54"></circle>
+                    <circle class="progress" id="health-score-circle" cx="60" cy="60" r="54"></circle>
+                  </svg>
+                </div>
+                <div class="health-badges">
+                  <span id="health-status" class="badge badge-neutral">Em análise</span>
+                  <p id="health-desc">
+                    Lance sua renda e dívidas para vermos sua saúde financeira.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sugestões -->
+        <div class="layout-2col">
+          <div class="card">
+            <div class="card-header">
+              <span>Sugestões inteligentes</span>
+              <i class="bx bx-bulb"></i>
+            </div>
+            <div class="card-body suggestions" id="suggestions-list">
+              <!-- Populado via JS -->
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span>Próximos pagamentos</span>
+              <i class="bx bx-calendar-event"></i>
+            </div>
+            <div class="card-body">
+              <ul class="list" id="upcoming-list">
+                <!-- Populado via JS -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RENDA -->
+      <section class="section" id="section-renda">
+        <div class="section-header-inline">
+          <h2>Renda</h2>
+          <button class="btn-primary" id="btnAddRenda">
+            <i class="bx bx-plus"></i> Nova renda
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Descrição</th>
+                  <th>Valor</th>
+                  <th>Tipo</th>
+                  <th>Data</th>
+                  <th>Recorrência</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="renda-tbody">
+                <!-- JS -->
+              </tbody>
+            </table>
+            <p class="table-empty" id="renda-empty">Nenhuma renda cadastrada.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- DÍVIDAS & GASTOS -->
+      <section class="section" id="section-dividas">
+        <div class="section-header-inline">
+          <h2>Dívidas & Gastos</h2>
+          <button class="btn-primary" id="btnAddDivida">
+            <i class="bx bx-plus"></i> Nova dívida/gasto
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Descrição</th>
+                  <th>Categoria</th>
+                  <th>Tipo</th>
+                  <th>Valor</th>
+                  <th>Vencimento</th>
+                  <th>Essencial?</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="dividas-tbody">
+                <!-- JS -->
+              </tbody>
+            </table>
+            <p class="table-empty" id="dividas-empty">Nenhuma dívida/gasto cadastrado.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- METAS -->
+      <section class="section" id="section-metas">
+        <div class="section-header-inline">
+          <h2>Metas financeiras</h2>
+          <button class="btn-primary" id="btnAddMeta">
+            <i class="bx bx-plus"></i> Nova meta
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-body metas-grid" id="metas-grid">
+            <!-- JS -->
+          </div>
+          <p class="table-empty" id="metas-empty">Nenhuma meta cadastrada.</p>
+        </div>
+      </section>
+
+      <!-- LEMBRETES -->
+      <section class="section" id="section-lembretes">
+        <div class="section-header-inline">
+          <h2>Lembretes</h2>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <p>Os lembretes são gerados automaticamente com base nas datas de vencimento das dívidas.</p>
+            <ul class="list" id="lembretes-list">
+              <!-- JS -->
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL GENÉRICO -->
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal</h3>
+        <button id="modal-close" class="icon-btn">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modal-cancel">Cancelar</button>
+        <button class="btn-primary" id="modal-confirm">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
